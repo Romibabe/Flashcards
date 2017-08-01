@@ -142,10 +142,10 @@ console.log(cardType);			  //prints the card type chosen to the user
                     text: cardData.text,
                     cloze: cardData.cloze
                 };
-                if (cardObj.text.indexOf(cardObj.cloze) !== -1) {   //checking to make sure the Cloze matches some text in the statement
-                    library.push(cardObj);							//push the new card into the array of cards
-                    fs.writeFile("cardLibrary.json", JSON.stringify(library, null, 2)); //write the updated array to the cardLibrary file
-                } else {											//if the cloze doesnt match then give a message to the user.
+                if (cardObj.text.indexOf(cardObj.cloze) !== -1){//checking to make sure the Cloze matches text
+                    library.push(cardObj);			//push the new card into the array of cards
+                fs.writeFile("cardLibrary.json", JSON.stringify(library, null, 2)); //write the updated array to the cardLibrary
+                } else {						//if the cloze doesnt match then give a message to the user.
                     console.log("Sorry, The cloze must match some word(s) in the text of your statement.");
 
                 }
@@ -157,7 +157,7 @@ console.log(cardType);			  //prints the card type chosen to the user
                         name: "anotherCard"
                     }
 
-                ]).then(function (appData) {				//once the user gives answer....
+                ]).then(function (appData) {//once the user gives answer....
                     if (appData.anotherCard === "Yes") {	//If 'Yes' then..
                         createCard();						//call the create card function again (recursion)
                     } else {								//Else (if the answer isnt Yes then its No)...
@@ -172,26 +172,30 @@ console.log(cardType);			  //prints the card type chosen to the user
 
 //function used to get the question from the drawnCard in the askQuestions function
 function getQuestion(card) {
-    if (card.type === "BasicCard") {						//If the cards type is "BasicCard" then....
-        drawnCard = new BasicCard(card.front, card.back);	//drawnCard becomes a new instance of BasicCard constuctor with its front and back passed in
+    if (card.type === "BasicCard") {				//If the cards type is "BasicCard" then....
+        drawnCard = new BasicCard(card.front, card.back);	//drawnCard becomes a new instance of BasicCard constuctor 
+                                                             //with its front and back passed in
         return drawnCard.front;								//Return the front of the card (the questions side)
     } else if (card.type === "ClozeCard") {					//If the card type is "Cloze Card" then...
-        drawnCard = new ClozeCard(card.text, card.cloze)	//drawnCard becomes a new instance of ClozeCard constuctor with its text and cloze passed in
+        drawnCard = new ClozeCard(card.text, card.cloze)	//drawnCard becomes a new instance of ClozeCard constuctor 
+                                                            //with its text and cloze passed in
         return drawnCard.clozeRemoved();					//Return the ClozeCard prototpe method clozeRemoved to show the question missing the cloze
     }
 };
 
 //function to ask questions from all stored card in the library
 function askQuestions() {
-    if (count < library.length) {					//if current count (starts at 0) is less than the number of cards in the library....
-        playedCard = getQuestion(library[count]);	//playedCard stores the question from the card with index equal to the current counter.
-        inquirer.prompt([							//inquirer used to ask the question from the playedCard.
+    if (count < library.length)//if current count (starts at 0) is less than the number of cards 
+                               //in the library....
+        playedCard = getQuestion(library[count]);//playedCard stores the question from the card with index equal 
+                                //to the current counter.
+        inquirer.prompt([		//inquirer used to ask the question from the playedCard.
             {
                 type: "input",
                 message: playedCard,
                 name: "question"
             }
-        ]).then(function (answer) {					//once the user answers
+        ]).then(function (answer) {		//once the user answers
         	//if the users answer equals .back or .cloze of the playedCard run a message "You are correct."
             if (answer.question === library[count].back || answer.question === library[count].cloze) {
                 console.log(colors.green("You are correct."));
