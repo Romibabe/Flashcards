@@ -11,14 +11,14 @@ var count = 0;
 
 //initially give option to the user to Create new flashcards or use exiting ones.
 function openMenu() {
-  inquirer.prompt([															//use inquirer to ask question
+  inquirer.prompt([			//use inquirer to ask question
       {
-          type: "list",														//type list gives user a list of options
-          message: "\nPlease choose a menu option from the list below?",	//message shown to the user
+          type: "list",								//type list gives user a list of options
+          message: "\nPlease choose a menu option from the list below?",//message shown to the user
           choices: ["Create", "Use All", "Random", "Shuffle", "Show All", "Exit"],	//options that show in list
-          name: "menuOptions"												//refrence name of object
+          name: "menuOptions"						//refrence name of object
       }
-  ]).then(function (answer) {												//Once inquirer gets answer then...
+  ]).then(function (answer) {								//Once inquirer gets answer then...
     var waitMsg;
 
     switch (answer.menuOptions) {
@@ -77,8 +77,8 @@ function createCard() {
 
     ]).then(function (appData) {
 
-        var cardType = appData.cardType;  			//the variable cardType will store the choice from the cardType inquirer object.
-        console.log(cardType);			  			//prints the card type chosen to the user
+var cardType = appData.cardType;  //the variable cardType will store the choice from the cardType inquirer object.
+console.log(cardType);			  //prints the card type chosen to the user
 
         if (cardType === "Basic Card") {
             inquirer.prompt([
@@ -96,15 +96,15 @@ function createCard() {
 
             ]).then(function (cardData) {
 
-                var cardObj = {						//builds an object with front and back info
+                var cardObj = {				//builds an object with front and back info
                     type: "BasicCard",
                     front: cardData.front,
                     back: cardData.back
                 };
-                library.push(cardObj);				//push the new card into the array of cards
+                library.push(cardObj);		//push the new card into the array of cards
                 fs.writeFile("cardLibrary.json", JSON.stringify(library, null, 2)); //write the updated array to the carLibrary.json file
 
-                inquirer.prompt([					//use inquirer to ask if the user wants to keep making cards
+                inquirer.prompt([			//use inquirer to ask if the user wants to keep making cards
                     {
                         type: "list",
                         message: "Do you want to create another card?",
@@ -114,7 +114,7 @@ function createCard() {
 
                 ]).then(function (appData) {				//once the user gives answer....
                     if (appData.anotherCard === "Yes") {	//If 'Yes' then..
-                        createCard();						//call the create card function again (recursion)
+                        createCard();						//call the create card function again 
                     } else {								//Else (if the answer isnt Yes then its No)...
                         setTimeout(openMenu, 1000);			//reopen the main menu to the user
                     }
