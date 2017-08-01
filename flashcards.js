@@ -179,7 +179,8 @@ function getQuestion(card) {
     } else if (card.type === "ClozeCard") {					//If the card type is "Cloze Card" then...
         drawnCard = new ClozeCard(card.text, card.cloze)	//drawnCard becomes a new instance of ClozeCard constuctor 
                                                             //with its text and cloze passed in
-        return drawnCard.clozeRemoved();					//Return the ClozeCard prototpe method clozeRemoved to show the question missing the cloze
+        return drawnCard.clozeRemoved(); //Return the ClozeCard prototpe method clozeRemoved to show the question 
+                                         //missing the cloze
     }
 };
 
